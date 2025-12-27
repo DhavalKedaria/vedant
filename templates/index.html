@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>PhotoEngine</title>
+  <title>PhotoEngine | Login</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* RESET & BASIC SETUP */
+    /* --- RESET & VARIABLES --- */
+    :root {
+      --bg-color: #080710;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+      --primary-gradient: linear-gradient(to right, #ff512f, #f09819);
+      --secondary-gradient: linear-gradient(to right, #1845ad, #23a2f6);
+    }
+
     *, *:before, *:after {
       padding: 0;
       margin: 0;
@@ -17,16 +25,17 @@
     }
 
     body {
-      background-color: #080710; /* Dark background makes the bright colors pop */
+      background-color: var(--bg-color);
       font-family: 'Poppins', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       overflow: hidden;
+      color: #ffffff;
     }
 
-    /* BACKGROUND SHAPES (The Bright Colors) */
+    /* --- ANIMATED BACKGROUND SHAPES --- */
     .background {
       width: 430px;
       height: 520px;
@@ -41,68 +50,75 @@
       width: 200px;
       position: absolute;
       border-radius: 50%;
+      filter: blur(2px); /* Slight blur helps blend */
     }
 
-    /* Bright Orange/Red Gradient Orb */
     .shape:first-child {
-      background: linear-gradient(
-        #ff512f,
-        #f09819
-      );
+      background: var(--primary-gradient);
       left: -80px;
       top: -80px;
       z-index: -1;
+      animation: floatOne 8s infinite alternate;
     }
 
-    /* Bright Blue/Cyan Gradient Orb */
     .shape:last-child {
-      background: linear-gradient(
-        to right,
-        #1845ad,
-        #23a2f6
-      );
+      background: var(--secondary-gradient);
       right: -30px;
       bottom: -80px;
       z-index: -1;
+      animation: floatTwo 8s infinite alternate;
     }
 
-    /* THE GLASS LOGIN CARD */
+    /* Animations for the shapes */
+    @keyframes floatOne {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(20px, 40px); }
+    }
+    @keyframes floatTwo {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-20px, -20px); }
+    }
+
+    /* --- THE GLASS CARD --- */
     form {
-      height: 520px;
       width: 400px;
-      background-color: rgba(255, 255, 255, 0.13); /* Translucency */
+      background-color: var(--glass-bg);
       position: absolute;
       transform: translate(-50%, -50%);
       top: 50%;
       left: 50%;
-      border-radius: 10px;
-      backdrop-filter: blur(10px); /* The Frosted Glass Effect */
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+      border-radius: 16px; /* Softer corners */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-top: 1px solid rgba(255,255,255,0.4); /* Highlight top edge */
+      border-left: 1px solid rgba(255,255,255,0.4); /* Highlight left edge */
+      box-shadow: var(--glass-shadow);
       padding: 50px 35px;
-    }
-
-    /* FORM TYPOGRAPHY */
-    form * {
-      color: #ffffff;
-      letter-spacing: 0.5px;
-      outline: none;
-      border: none;
+      display: flex;
+      flex-direction: column;
     }
 
     form h3 {
       font-size: 32px;
-      font-weight: 500;
+      font-weight: 600;
       line-height: 42px;
       text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
-    /* INPUT FIELDS */
+    /* --- INPUTS --- */
+    .input-group {
+        margin-bottom: 20px;
+    }
+
     label {
       display: block;
-      margin-top: 30px;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
+      margin-bottom: 8px;
+      opacity: 0.9;
     }
 
     input {
@@ -110,66 +126,117 @@
       height: 50px;
       width: 100%;
       background-color: rgba(255, 255, 255, 0.07);
-      border-radius: 3px;
-      padding: 0 10px;
-      margin-top: 8px;
-      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0 15px;
+      color: #fff;
+      font-size: 15px;
       font-weight: 300;
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
     }
 
+    /* Improved Focus State */
     input:focus {
         background-color: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        outline: none;
     }
 
     ::placeholder {
-      color: #e5e5e5;
+      color: rgba(255,255,255,0.6);
     }
 
-    /* BUTTON */
+    /* --- MAIN BUTTON --- */
     button {
-      margin-top: 50px;
+      margin-top: 20px;
       width: 100%;
-      background-color: #ffffff;
+      background: #ffffff;
       color: #080710;
       padding: 15px 0;
       font-size: 18px;
       font-weight: 600;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
     }
 
     button:hover {
-        background-color: #f0f0f0;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+    }
+    
+    button:active {
+        transform: translateY(0);
     }
 
-    /* SOCIAL LOGIN (Optional decoration) */
+    /* --- SOCIAL & FOOTER --- */
+    .divider {
+        margin: 25px 0;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        line-height: 0.1em;
+        font-size: 14px;
+        color: rgba(255,255,255,0.6);
+    }
+    
+    .divider span {
+        background: transparent; /* Adjust if background isn't solid */
+        padding: 0 10px;
+    }
+
     .social {
-      margin-top: 30px;
       display: flex;
+      gap: 15px;
+      justify-content: center;
     }
 
-    .social div {
-      background: red;
-      width: 150px;
-      border-radius: 3px;
-      padding: 5px 10px 10px 5px;
-      background-color: rgba(255, 255, 255, 0.27);
+    .social-btn {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 12px;
       color: #eaf0fb;
-      text-align: center;
-      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
     }
 
-    .social div:hover {
-      background-color: rgba(255, 255, 255, 0.47);
+    .social-btn:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+    
+    .social-btn svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        fill: white;
     }
 
-    .social .fb {
-      margin-left: 25px;
+    /* --- CREATE ACCOUNT LINK --- */
+    .footer-link {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 13px;
+        color: rgba(255,255,255,0.7);
+    }
+
+    .footer-link a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 5px;
+    }
+
+    .footer-link a:hover {
+        text-decoration: underline;
     }
   </style>
 </head>
@@ -179,21 +246,38 @@
     <div class="shape"></div>
     <div class="shape"></div>
   </div>
-
+  
   <form method="post" action="/login">
-    <h3>Login Here</h3>
+    <h3>Login</h3>
 
-    <label for="username">Username</label>
-    <input type="text" placeholder="Email" id="username" name="email">
+    <div class="input-group">
+        <label for="text">Email</label>
+        <input type="text" placeholder="Enter your email" id="email" name="email">
+    </div>
 
-    <label for="password">Password</label>
-    <input type="password" placeholder="Password" id="password" name="password">
+    <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Enter your password" id="password" name="password">
+    </div>
 
-    <button>Log In</button>
+    <button type="submit">Log In</button>
     
+    <div class="divider"><span>Or continue with</span></div>
+
     <div class="social">
-      <div class="go">Google</div>
-      <div class="fb">Facebook</div>
+      <a href="/auth/google" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/></svg>
+        Google
+      </a>
+      
+      <a href="/auth/facebook" class="social-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.15 5.96C15.21 5.96 16.12 6.04 16.39 6.08V8.7H14.86C13.65 8.7 13.42 9.27 13.42 10.1V12.06H16.34L15.88 14.96H13.42V21.96C18.2 21.21 21.86 17.06 21.86 12.06C21.86 6.53 17.36 2.04 12 2.04Z"/></svg>
+        Facebook
+      </a>
+    </div>
+
+    <div class="footer-link">
+        Don't have an account? <a href="/createacc">Sign up</a>
     </div>
   </form>
 
