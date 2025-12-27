@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - PhotoEngine</title>
+    <style>
+        /* --- 1. Global Reset & Variables (Matches Dashboard) --- */
+        :root {
+            --primary: #FF0080;      
+            --secondary: #7928CA;    
+            --accent: #00DFD8;       
+            --bg-body: #f7f9fc;      
+            --text-main: #1A202C;
+            --text-muted: #718096;
+            --font-stack: 'Inter', system-ui, -apple-system, sans-serif;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-body);
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* --- 2. Navbar (Simplified for Settings) --- */
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex; align-items: center; gap: 6px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--secondary); }
+
+        /* --- 3. Settings Layout --- */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .page-header { margin-bottom: 30px; }
+        .page-header h1 { font-size: 2rem; font-weight: 700; color: var(--text-main); }
+        .page-header p { color: var(--text-muted); margin-top: 5px; }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr; /* Left column smaller, Right larger */
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #edf2f7;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #edf2f7;
+            color: var(--text-main);
+        }
+
+        /* --- 4. Profile Photo Section (Left Col) --- */
+        .photo-upload-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .current-photo-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .settings-avatar {
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #f7f9fc;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-btn-icon {
+            position: absolute;
+            bottom: 5px; right: 5px;
+            background: var(--primary);
+            color: white;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+            transition: transform 0.2s;
+        }
+        .upload-btn-icon:hover { transform: scale(1.1); }
+
+        /* --- 5. Forms (Inputs) --- */
+        .form-group { margin-bottom: 20px; }
+        
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], 
+        input[type="password"],
+        textarea {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            transition: all 0.2s;
+        }
+
+        textarea { resize: vertical; min-height: 120px; }
+
+        input:focus, textarea:focus {
+            background: white;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(121, 40, 202, 0.1);
+        }
+
+        .btn-save {
+            background: var(--text-main);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-save:hover { background: var(--secondary); }
+        .btn-save.danger { background: #e53e3e; margin-top: 20px; }
+        .btn-save.danger:hover { background: #c53030; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--text-main); color: white;
+            padding: 12px 24px; border-radius: 8px;
+            transform: translateY(150px); transition: transform 0.4s;
+            z-index: 200;
+        }
+        .toast.show { transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .settings-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            PhotoEngine
+        </a>
+        <a href="/" class="back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Dashboard
+        </a>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <h1>Settings</h1>
+            <p>Manage your profile details and security.</p>
+        </div>
+
+        <form action="/update-settings" method="POST" enctype="multipart/form-data" id="settingsForm">
+            
+            <div class="settings-grid">
+                
+                <div class="card">
+                    <h3 class="card-title">Public Profile</h3>
+                    
+                    <div class="photo-upload-wrapper">
+                        <div class="current-photo-container">
+                            <img src="https://ui-avatars.com/api/?name={{user}}&background=7928CA&color=fff&size=256" alt="Profile" class="settings-avatar" id="avatarPreview">
+                            
+                            <input type="file" id="photoInput" name="profile_photo" accept="image/*" style="display: none;">
+                            
+                            <label for="photoInput" class="upload-btn-icon" title="Change Photo">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            </label>
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:20px;">
+                            Click the camera icon to upload. <br>Recommended: Square JPG/PNG.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">About You (Description)</label>
+                        <textarea id="description" name="description" placeholder="Tell us a little about yourself...">Photographer based in NYC. Capturing moments that matter.</textarea>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Account Information</h3>
+
+                    <div class="form-group">
+                        <label for="fullname">Display Name</label>
+                        <input type="text" id="fullname" name="fullname" value="{{user}}" placeholder="Your Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="text" id="email" value="user@example.com" disabled style="background:#edf2f7; cursor: not-allowed; opacity: 0.7;">
+                        <small style="color:var(--text-muted); font-size: 0.75rem;">Contact support to change email.</small>
+                    </div>
+
+                    <br>
+                    <h3 class="card-title" style="margin-top: 10px;">Security</h3>
+
+                    <div class="form-group">
+                        <label for="current_pass">Current Password</label>
+                        <input type="password" id="current_pass" name="current_pass" placeholder="••••••••">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_pass">New Password</label>
+                        <input type="password" id="new_pass" name="new_pass" placeholder="New strong password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_pass">Confirm New Password</label>
+                        <input type="password" id="confirm_pass" name="confirm_pass" placeholder="Repeat new password">
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <button type="submit" class="btn-save">Save Changes</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="toast" id="toast">
+        <span>💾</span> Settings Saved Successfully!
+    </div>
+
+    <script>
+        // 1. Image Preview Logic
+        const photoInput = document.getElementById('photoInput');
+        const avatarPreview = document.getElementById('avatarPreview');
+
+        photoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Form Submission Simulation
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            // Remove this line when connecting to real backend
+            e.preventDefault(); 
+
+            // Basic validation
+            const newPass = document.getElementById('new_pass').value;
+            const confirmPass = document.getElementById('confirm_pass').value;
+
+            if(newPass && newPass !== confirmPass) {
+                alert("New passwords do not match!");
+                return;
+            }
+
+            const btn = document.querySelector('.btn-save');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Saving...";
+            btn.style.opacity = "0.7";
+
+            // Simulate server delay
+            setTimeout(() => {
+                showToast();
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+                // If real backend, you might want to: this.submit();
+            }, 1000);
+        });
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

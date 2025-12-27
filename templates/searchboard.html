@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoEngine</title>
+    <style>
+        /* --- 1. Global Reset & Variables --- */
+        :root {
+            --primary: #FF0080;      /* Electric Pink */
+            --secondary: #7928CA;    /* Deep Purple */
+            --accent: #00DFD8;       /* Cyan */
+            --bg-mesh: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                       radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                       radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            --bg-color: #0f0c29;     /* Dark mode base for better contrast with neon */
+            --card-bg: #FFFFFF;
+            --text-main: #2D3748;
+            --text-light: #F7FAFC;
+            --font-stack: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: #F0F2F5;
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* --- 2. The Header (Dashboard Top) --- */
+        header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(121, 40, 202, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Controls Section (Upload & Search) */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .upload-group {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 5px 10px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+        }
+
+        .upload-group:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        input[type="file"] {
+            display: none; 
+        }
+
+        .custom-file-upload {
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .custom-file-upload:hover {
+            color: var(--accent);
+        }
+
+        .btn-upload {
+            background-color: var(--accent);
+            color: #004d4a;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0, 223, 216, 0.3);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-upload:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 223, 216, 0.5);
+            background-color: #fff;
+        }
+
+        /* Search Bar Polish */
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 20px;
+            color: white;
+            font-family: var(--font-stack);
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            width: 240px;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 223, 216, 0.2);
+        }
+
+        /* User Section */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .username {
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: white;
+            color: var(--secondary);
+            border-color: white;
+        }
+
+        /* --- 3. The Gallery Grid --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            margin-bottom: 25px; 
+            font-weight: 300; 
+            color: #555; 
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- 4. Card Styling & Animation --- */
+        .gallery-item {
+            position: relative;
+            height: 320px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--card-bg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 0.6s ease-out forwards;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Overlay text on images */
+        .item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 20px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+            color: white;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .item-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2D3748;
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(150px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            border-left: 4px solid var(--accent);
+        }
+        .toast.show {
+            transform: translateY(0);
+        }
+        
+        /* Mobile Tweaks */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .search-input:focus {
+                width: 100%;
+            }
+            .search-input {
+                width: 100%;
+            }
+            .user-section {
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+        /* --- New Profile & Avatar Styles --- */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* The clickable container for Image + Name */
+        .profile-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 16px 4px 4px; /* Less padding left for the image */
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+        }
+
+        .profile-chip:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .username-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* Update logout button to fit nicely next to chip */
+        .btn-logout {
+            margin-left: 5px;
+            opacity: 0.8;
+        }
+        .btn-logout:hover {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <a href="/" style="text-decoration: none; color: white;">PhotoEngine</a>
+        </div>
+
+        <div class="header-actions">
+            
+            <form action="search" method="get" class="search-wrapper">
+                <input type="text" name="search" class="search-input" placeholder="Search profiles...">
+            </form>
+        </div>
+
+        <div class="user-section">
+            <a href="/" class="profile-chip" title="Go to Profile">
+                <img src="https://ui-avatars.com/api/?name={{user}}&background=00DFD8&color=000&size=128" alt="Profile" class="user-avatar">
+                <span class="username-text">{{user}}</span>
+            </a>
+
+            <a href="/logout" class="btn-logout" onclick="return confirmLogout()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Recent Uploads</h2>
+        
+        <div class="gallery-grid" id="galleryGrid">
+                {% for image in data %}
+                    <div class="gallery-item">
+                        <img src="{{url_for('static',filename=image[2])}}" loading="lazy" alt="User Upload">
+                        <div class="item-overlay">
+                            <span>Uploaded by {{owner}}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+        
+        {% if not data %}
+        <div style="text-align:center; grid-column: 1/-1; padding: 40px; color: #aaa;">
+            <p>No images found. Be the first to upload!</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="toast" id="toast">
+        <span>🚀</span> Image Uploaded Successfully!
+    </div>
+
+    <script>
+        // --- Interactions ---
+
+        const fileInput = document.getElementById('imageUpload');
+        const fileLabelName = document.getElementById('fileName');
+        const fileLabelIcon = document.getElementById('fileIcon');
+        const uploadForm = document.getElementById('uploadForm');
+
+        // 1. File Selection Feedback
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const name = this.files[0].name;
+                // Truncate if too long
+                const display = name.length > 20 ? name.substring(0, 18) + "..." : name;
+                
+                fileLabelName.innerText = display;
+                fileLabelName.style.color = "var(--accent)";
+                fileLabelIcon.innerText = "📄";
+            } else {
+                fileLabelName.innerText = "Select File";
+                fileLabelName.style.color = "white";
+                fileLabelIcon.innerText = "📂";
+            }
+        });
+
+        // 2. Submit Handling
+        // Note: Since the form posts to 'saveimg', the page will likely reload.
+        // We show a loading state briefly before the browser takes over.
+        uploadForm.addEventListener('submit', function(e) {
+            if (fileInput.files.length === 0) {
+                e.preventDefault(); // Stop submission if no file
+                alert("Please select a file to upload first.");
+                return;
+            }
+            
+            const btn = this.querySelector('.btn-upload');
+            btn.innerHTML = "Uploading...";
+            btn.style.opacity = "0.7";
+            btn.style.cursor = "wait";
+            
+            // Optional: If you wanted client-side preview, you'd do it here,
+            // but standard form submission reloads the page anyway.
+        });
+
+        // 3. Toast Logic
+        // You can trigger this via URL params or template logic if the backend sends a success flag.
+        // For now, I'll leave the function exposed if you want to call it.
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if(message) toast.innerHTML = `<span>🚀</span> ${message}`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 4. Logout Confirmation
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+
+    </script>
+</body>
+</html>

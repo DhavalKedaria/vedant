@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhotoEngine | Create Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- VARIABLES & RESET --- */
+    :root {
+        --primary-color: #6366f1; /* A bright, friendly Indigo */
+        --primary-hover: #4f46e5;
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); /* Very subtle light gray/white gradient */
+        /* Alternative bright option: Sunny gradient below */
+        /* --bg-gradient: linear-gradient(120deg, #f6d365 0%, #fda085 100%); */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* The bright background */
+      background: #f0f2f5; /* Fallback */
+      background: var(--bg-gradient);
+      padding: 20px;
+    }
+
+    /* --- THE CARD CONTAINER --- */
+    .signup-container {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      padding: 48px 40px;
+      border-radius: 20px;
+      /* Soft, modern shadow to lift the white card */
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .header h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    .header p {
+        color: var(--text-light);
+        font-size: 15px;
+    }
+
+    /* --- FORM ELEMENTS --- */
+    .input-group {
+        margin-bottom: 24px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 16px;
+        color: var(--text-dark);
+        background-color: #f9fafb; /* Very slight off-white for inputs */
+        border: 2px solid #e5e7eb; /* Light gray border */
+        border-radius: 10px;
+        outline: none;
+        transition: all 0.2s ease-in-out;
+    }
+
+    input::placeholder {
+        color: #a0aec0;
+    }
+
+    /* The "bright" aspect: Colorful focus state */
+    input:focus {
+        border-color: var(--primary-color);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); /* Subtle glow match primary color */
+    }
+
+    /* --- BUTTON --- */
+    .submit-btn {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff;
+        background-color: var(--primary-color);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-hover);
+    }
+    
+    .submit-btn:active {
+        transform: scale(0.99);
+    }
+
+    /* --- FOOTER LINKS --- */
+    .form-footer {
+        margin-top: 32px;
+        text-align: center;
+        font-size: 14px;
+        color: var(--text-light);
+    }
+
+    .form-footer a {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .form-footer a:hover {
+        text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <div class="header">
+        <h2>Create an Account</h2>
+        <p>It's quick and easy.</p>
+    </div>
+
+    <form action="/register" method="POST">
+      
+      <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Amit" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="your password" required>
+      </div>
+
+      <button type="submit" class="submit-btn">Create Account</button>
+
+      <div class="form-footer">
+        Already have an account? <a href="/">Log In</a>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>

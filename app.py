@@ -46,8 +46,9 @@ def search():
         print(user)
         query= f"select * from galary where users='{user}'"
         data=dbconn(query,'select')
+        owner=data[1][1]
         if data:
-            return render_template('dashboard.html',user=session['user'],data=data)
+            return render_template('searchboard.html',user=session['user'],data=data,owner=owner)
         else:
             return redirect('/dashboard')
     else:
@@ -104,7 +105,30 @@ def saveimg():
         dbconn(query,type)
         file.save(path)
         return redirect('/dashboard')
+    
+@app.route('/createacc')
+def createacc():
+    if 'user' in session:
+        return redirect('/dashboard')
+    else:
+        return render_template('createacc.html')
+    
+@app.route('/register',methods=['post'])
+def register():
+    name = request.form.get('name')
+    password= request.form.get('password')
+    query = f"insert into users (uname,pwd) values('{name}','{password}')"
+    type = 'save'
+    dbconn(query,type)
+    message= "Account created successfully. Please log in."
+    return render_template('index.html',message=message)
 
+@app.route('/settings')
+def settings():
+    if 'user' in session:
+        return render_template('settings.html', user=session['user'])
+    else:
+        return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=500)
