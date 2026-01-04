@@ -10,3 +10,14 @@
 
 ## this is sample insert query
 - insert into galary (users,image) values('amit','baseimage.jpg')
+
+
+
+## sample data
+[(1, 1, 'vedant', '/images/system/user.jpg')(asdfasdf,afa,asdfasfd)]
+
+[] == list → 0 index tuple
+() == tuple → 3 image
+
+data[0][3] 
+data[1][2]

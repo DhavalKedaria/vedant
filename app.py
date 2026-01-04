@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = '123456789'
 
 def dbconn(query,type):
-  conn= psycopg2.connect(host='localhost',database='vedant',user='dhaval',password='test@123',port=6432)
+  conn= psycopg2.connect(host='192.168.29.215',database='vedant',user='dhaval',password='test@123',port=6432)
   cursor = conn.cursor()
   cursor.execute(query)
   if type == 'save':
@@ -46,7 +46,10 @@ def search():
         print(user)
         query= f"select * from galary where users='{user}'"
         data=dbconn(query,'select')
-        owner=data[1][1]
+        if data:
+            owner=data[1][1]
+        else:
+            owner = 'No User Found'
         if data:
             return render_template('searchboard.html',user=session['user'],data=data,owner=owner)
         else:
@@ -58,10 +61,24 @@ def search():
 def login():
     email = request.form.get('email')
     password= request.form.get('password')
-    query = f"select uname,pwd from users where uname='{email}'and pwd='{password}'"
+    query = f"select uname,pwd,id from users where uname='{email}'and pwd='{password}'"
     data=db_userbase(query)
     if data:
+        id = data[0][2]
+        user_detail = f"select * from user_detail where user_id = {id}"
+        if dbconn(user_detail,'select'):
+            print("User detail exists")
+            pass
+        else:
+            insert = f"insert into user_detail (user_id,description,dp) values('{id}','{email}','/images/system/user.jpg')"
+            if dbconn(insert,'save'):
+                print("User detail created")
+            else:
+                print("Error creating user detail")
+            
         session['user']=email
+        session['id'] = id
+        
         return redirect('/dashboard')
     else:
         return redirect('/')
@@ -81,9 +98,12 @@ def dashboard():
     if 'user' in session:
         user = session['user']
         query= f"select * from galary where users='{user}'"
+        query2= f"select * from user_detail where user_id = {session['id']}"
         type= 'select'
         data = dbconn(query,type)
-        return render_template('dashboard.html',user=user,data=data)
+        userdetail = dbconn(query2,type)
+        print(userdetail)
+        return render_template('dashboard.html',user=user,data=data,userdata=userdetail)
     else:
         return redirect('/')
 @app.route('/logout')
@@ -129,6 +149,35 @@ def settings():
         return render_template('settings.html', user=session['user'])
     else:
         return redirect('/')
+    
+@app.route('/update-settings',methods=['post'])
+def updatesettings():
+    if 'user' in session:
+        old_pass = request.form.get('old_pass')
+        new_pass = request.form.get('new_pass')
+        name = request.form.get('fullname')
+        user = session['user']
+        file = request.files['profile_photo']
+        description = request.form.get('description')
+        if file.filename != '':
+            path = "static/profilepic/"+file.filename
+            file.save(path)
+            imagepath = f"images/profilepic/{file.filename}"
+        else: 
+            imagepath= ""
+        if not new_pass:
+            new_pass = old_pass
+        id=session['id']
+        query = f"update users set pwd = '{new_pass}' , uname = '{name}' where uname = '{user}' and pwd = '{old_pass}'"
+        query1 = f"update user_detail set dp = '{imagepath}' , description = '{description}' where user_id = '{id}'"
+        type = 'save'
+        if dbconn(query,type):
+            session['user'] = name
+            if dbconn(query1,type):
+                pass
+        else:
+            return "Error updating settings"
+        return redirect('/dashboard')
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=500)
