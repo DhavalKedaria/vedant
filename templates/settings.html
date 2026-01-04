@@ -227,7 +227,7 @@
                     
                     <div class="photo-upload-wrapper">
                         <div class="current-photo-container">
-                            <img src="https://ui-avatars.com/api/?name={{user}}&background=7928CA&color=fff&size=256" alt="Profile" class="settings-avatar" id="avatarPreview">
+                            <img src="{{url_for('static', filename=userdata[0][3])}}" alt="Profile" class="settings-avatar" id="avatarPreview">
                             
                             <input type="file" id="photoInput" name="profile_photo" accept="image/*" style="display: none;">
                             
@@ -242,7 +242,7 @@
 
                     <div class="form-group">
                         <label for="description">About You (Description)</label>
-                        <textarea id="description" name="description" placeholder="Tell us a little about yourself...">Photographer based in NYC. Capturing moments that matter.</textarea>
+                        <textarea id="description" name="description" placeholder="Tell us a little about yourself...">{{userdata[0][2]}}</textarea>
                     </div>
                 </div>
 

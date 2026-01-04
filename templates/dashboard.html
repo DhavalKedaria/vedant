@@ -340,7 +340,7 @@
 
         <div class="mini-profile">
             <a href="/logout" class="btn-logout" onclick="return confirmLogout()">Log out</a>
-            <img src="https://ui-avatars.com/api/?name={{user}}&background=cbd5e0&color=fff" class="mini-avatar" alt="User">
+            <img src="{{url_for('static', filename=userdata[0][3])}}" class="mini-avatar" alt="User">
         </div>
     </header>
 
@@ -351,8 +351,7 @@
             <div class="desc-board">
                 <h1>Welcome back, {{user}}! 👋</h1>
                 <p>
-                    This is your personal creative dashboard. Manage your portfolio, organize visuals, 
-                    and showcase your best work to the world. You are currently on the <strong>Pro Plan</strong>.
+                    {{userdata[0][2]}}
                 </p>
                 <div class="stats-row">
                     <div class="stat-item">
@@ -372,7 +371,7 @@
 
             <div class="profile-cluster">
                 <div class="large-dp-wrapper">
-                    <img src="https://ui-avatars.com/api/?name={{user}}&background=7928CA&color=fff&size=256" alt="Profile" class="large-dp">
+                    <img src="{{url_for('static', filename=userdata[0][3])}}" alt="Profile" class="large-dp">
                     <div class="status-dot" title="Online"></div>
                 </div>
                 

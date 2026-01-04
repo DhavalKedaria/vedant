@@ -13,7 +13,7 @@
 
 
 
-## sample data
+## sample data example
 [(1, 1, 'vedant', '/images/system/user.jpg')(asdfasdf,afa,asdfasfd)]
 
 [] == list → 0 index tuple
@@ -21,3 +21,7 @@
 
 data[0][3] 
 data[1][2]
+
+
+## current bugs 
+profile descripton sanitation

@@ -70,7 +70,7 @@ def login():
             print("User detail exists")
             pass
         else:
-            insert = f"insert into user_detail (user_id,description,dp) values('{id}','{email}','/images/system/user.jpg')"
+            insert = f"insert into user_detail (user_id,description,dp) values('{id}','{email}','system/user.jpg')"
             if dbconn(insert,'save'):
                 print("User detail created")
             else:
@@ -146,7 +146,10 @@ def register():
 @app.route('/settings')
 def settings():
     if 'user' in session:
-        return render_template('settings.html', user=session['user'])
+        query2= f"select * from user_detail where user_id = {session['id']}"
+        type = 'select'
+        userdata = dbconn(query2,type)
+        return render_template('settings.html', user=session['user'], userdata=userdata)
     else:
         return redirect('/')
     
@@ -159,12 +162,16 @@ def updatesettings():
         user = session['user']
         file = request.files['profile_photo']
         description = request.form.get('description')
+        get_dp_data= f"select * from user_detail where user_id = {session['id']}"
+        old_dp = dbconn(get_dp_data,'select') 
         if file.filename != '':
             path = "static/profilepic/"+file.filename
             file.save(path)
-            imagepath = f"images/profilepic/{file.filename}"
+            imagepath = f"profilepic/{file.filename}"
         else: 
-            imagepath= ""
+            imagepath= old_dp[0][3]
+        if description == '':
+            description = old_dp[0][4]
         if not new_pass:
             new_pass = old_pass
         id=session['id']
