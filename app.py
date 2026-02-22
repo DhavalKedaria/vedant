@@ -1,4 +1,4 @@
-from flask import Flask,request,render_template,redirect,session
+from flask import Flask,request,render_template,redirect,session,jsonify
 import psycopg2
 
 app = Flask(__name__)
@@ -45,13 +45,18 @@ def search():
         user = request.args.get('search')
         print(user)
         query= f"select * from galary where users='{user}'"
+        query2= f"select * from user_detail where user_id = {session['id']}"
+        query3= f"select * from users as u inner join user_detail as d on u.id=d.user_id where u.uname ='{user}'"
+        userdata= dbconn(query2,'select')
         data=dbconn(query,'select')
+        search_data=dbconn(query3,'select')
+        user_id=session['id']
         if data:
             owner=data[1][1]
         else:
             owner = 'No User Found'
         if data:
-            return render_template('searchboard.html',user=session['user'],data=data,owner=owner)
+            return render_template('searchboard.html',user=session['user'],data=data,owner=owner,userdata=userdata,search_data=search_data,uid=user_id)
         else:
             return redirect('/dashboard')
     else:
@@ -99,11 +104,13 @@ def dashboard():
         user = session['user']
         query= f"select * from galary where users='{user}'"
         query2= f"select * from user_detail where user_id = {session['id']}"
-        type= 'select'
+        commentquery= f"select u.uname,c.cmts,ud.dp,c.image_id from users as u inner join comment as c on u.id=c.user_id inner join user_detail as ud on u.id=ud.user_id"
+        commentdata=dbconn(commentquery,'select')
+        print(commentdata)
         data = dbconn(query,type)
         userdetail = dbconn(query2,type)
         print(userdetail)
-        return render_template('dashboard.html',user=user,data=data,userdata=userdetail)
+        return render_template('dashboard.html',user=user,data=data,userdata=userdetail,commentdata=commentdata,uid=session['id'])
     else:
         return redirect('/')
 @app.route('/logout')
@@ -185,6 +192,24 @@ def updatesettings():
         else:
             return "Error updating settings"
         return redirect('/dashboard')
+    
+@app.route('/savecomment',methods=['post'])
+def savecomments():
+    comment = request.form.get('comment')
+    image_id=request.form.get('image_id')
+    uid = request.form.get('user_id')
+    print('comment section')
+    print(comment)
+    savequery = f"insert into comment(image_id,user_id,cmts) values({image_id},{uid},'{comment}')"
+    dbconn(savequery,'save')
+    return redirect('/dashboard')
+
+@app.route('/getcomment',methods=['get'])
+def getcomment():
+    image_id=request.args.get('id')
+    query = f"select u.uname,c.cmts,ud.dp,c.image_id from users as u inner join comment as c on u.id=c.user_id inner join user_detail as ud on u.id=ud.user_id where c.image_id={image_id} order by c.id"
+    comments=dbconn(query,'select')
+    return jsonify(comments)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=500)

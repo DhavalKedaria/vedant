@@ -25,3 +25,47 @@ data[1][2]
 
 ## current bugs 
 profile descripton sanitation
+
+
+
+## 18-jan-2026 -- Comment Section DB Query
+create table comment (id serial Primary key,image_id int references galary(id), user_id int references users(id),cmts text)
+#drop table comment   
+select * from comment
+
+
+## reference query
+select * from user_detail
+
+select * from users as u inner join user_detail as d on u.id=d.user_id where u.uname ='harsh'
+
+select * from galary
+
+----- comment section---
+
+create table comment (id serial Primary key,image_id int references galary(id), user_id int references users(id),cmts text)
+
+drop table comment
+
+select * from galary
+select * from users
+
+insert into comment(image_id,user_id,cmts) values(2,2,'nice')
+
+select * from users as u inner join galary as g on g.users=u.uname inner join comment as c on u.id=c.user_id
+
+select * from comment
+
+select * from user_detail
+
+select u.uname,c.cmts,ud.dp from users as u inner join comment as c on u.id=c.user_id inner join user_detail as ud on u.id=ud.user_id
+
+select u.uname,c.cmts,ud.dp,c.image_id from users as u inner join comment as c on u.id=c.user_id inner join user_detail as ud on u.id=ud.user_id where c.image_id={image_id} order by c.id
+
+## current problems
+- hard coded comments  // solved
+- hardcoded username is galay need to replace it with user id // solved
+- make image comments dynemic // solved
+- All comments are visible on all images // solved
+- Comment Refresh issue
+- Search Dashboard Page change after submitting comment

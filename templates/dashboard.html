@@ -28,13 +28,13 @@
             font-family: var(--font-stack);
             background-color: var(--bg-body);
             background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-            background-size: 20px 20px; /* Subtle dot pattern */
+            background-size: 20px 20px;
             color: var(--text-main);
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 2. The Navbar (Polished) --- */
+        /* --- 2. The Navbar --- */
         header {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
@@ -60,15 +60,9 @@
             gap: 8px;
             text-decoration: none;
         }
-
         .brand svg { stroke: var(--secondary); }
 
-        /* Middle Controls */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
 
         .search-input {
             background: #f1f5f9;
@@ -86,7 +80,6 @@
             width: 300px;
         }
 
-        /* Upload Button styling */
         .upload-group { display: flex; align-items: center; gap: 10px; }
         input[type="file"] { display: none; }
         
@@ -111,196 +104,153 @@
         }
         .btn-upload:hover { transform: scale(1.05); background: var(--primary); }
 
-        /* Mini Nav User Profile */
-        .mini-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .mini-avatar {
-            width: 32px; height: 32px; border-radius: 50%;
-            border: 2px solid #e2e8f0;
-        }
-        .btn-logout {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
+        .mini-profile { display: flex; align-items: center; gap: 12px; }
+        .mini-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #e2e8f0; }
+        .btn-logout { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
         .btn-logout:hover { color: var(--primary); }
 
-        /* --- 3. Hero Dashboard Area (Description Board + Profile) --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+        /* --- 3. Hero & Grid --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
 
         .dashboard-hero {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start; /* Aligns top */
-            margin-bottom: 3rem;
-            animation: slideDown 0.6s ease-out;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 3rem; animation: slideDown 0.6s ease-out;
         }
 
-        /* The Description Board (Left Side) */
         .desc-board {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            max-width: 600px;
-            position: relative;
-            overflow: hidden;
+            background: white; padding: 2rem; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md); max-width: 600px;
             border-left: 5px solid var(--secondary);
         }
+        .desc-board h1 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--text-main); }
+        .desc-board p { color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
 
-        .desc-board h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
-
-        .desc-board p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .stats-row {
-            display: flex;
-            gap: 30px;
-            border-top: 1px solid #edf2f7;
-            padding-top: 1rem;
-        }
-
+        .stats-row { display: flex; gap: 30px; border-top: 1px solid #edf2f7; padding-top: 1rem; }
         .stat-item h3 { font-size: 1.2rem; margin-bottom: 2px; }
         .stat-item span { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; }
 
-        /* The Right Side Profile Cluster */
-        .profile-cluster {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 15px;
-        }
-
-        .large-dp-wrapper {
-            position: relative;
-        }
-
+        .profile-cluster { display: flex; flex-direction: column; align-items: flex-end; gap: 15px; }
+        .large-dp-wrapper { position: relative; }
         .large-dp {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: var(--shadow-lg);
+            width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+            border: 4px solid white; box-shadow: var(--shadow-lg);
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
         .large-dp:hover { transform: scale(1.1) rotate(-3deg); cursor: pointer; }
-
         .status-dot {
-            position: absolute;
-            bottom: 8px; right: 8px;
-            width: 20px; height: 20px;
-            background: var(--accent);
-            border: 3px solid white;
-            border-radius: 50%;
+            position: absolute; bottom: 8px; right: 8px; width: 20px; height: 20px;
+            background: var(--accent); border: 3px solid white; border-radius: 50%;
         }
-
         .settings-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            color: var(--text-main);
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s;
-            border: 1px solid #e2e8f0;
+            display: flex; align-items: center; gap: 8px; background: white;
+            color: var(--text-main); text-decoration: none; padding: 10px 20px;
+            border-radius: 50px; font-weight: 600; font-size: 0.9rem;
+            box-shadow: var(--shadow-sm); transition: all 0.2s; border: 1px solid #e2e8f0;
         }
+        .settings-btn:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--secondary); color: var(--secondary); }
 
-        .settings-btn:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-            border-color: var(--secondary);
-            color: var(--secondary);
-        }
-
-        /* --- 4. Gallery Grid (Polished) --- */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+        .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
 
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
         }
-
         .gallery-item {
-            position: relative;
-            height: 300px;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: white;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            cursor: pointer;
+            position: relative; height: 300px; border-radius: var(--radius-lg);
+            overflow: hidden; background: white; box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer;
         }
-
-        .gallery-item:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
+        .gallery-item:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
         .gallery-item:hover img { transform: scale(1.08); }
-
         .item-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 20px;
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 20px;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
+            color: white; opacity: 0; transform: translateY(10px); transition: all 0.3s ease;
+        }
+        .gallery-item:hover .item-overlay { opacity: 1; transform: translateY(0); }
+
+        /* --- 4. NEW: Modal & Comments Styles --- */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: white; width: 90%; max-width: 1000px; height: 85vh;
+            border-radius: var(--radius-lg); overflow: hidden;
+            display: flex; box-shadow: var(--shadow-lg);
+            position: relative;
         }
 
-        .gallery-item:hover .item-overlay {
-            opacity: 1;
-            transform: translateY(0);
+        /* Modal: Left Side (Image) */
+        .modal-image-col {
+            flex: 1.5; background: #000;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .modal-image-col img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
         }
 
-        /* --- 5. Utilities --- */
+        /* Modal: Right Side (Comments) */
+        .modal-interaction-col {
+            flex: 1; display: flex; flex-direction: column;
+            background: #fff; border-left: 1px solid #e2e8f0;
+        }
+
+        .modal-header {
+            padding: 15px 20px; border-bottom: 1px solid #f1f5f9;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .comment-user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .comment-user-name { font-weight: 700; font-size: 0.95rem; }
+
+        .comments-list {
+            flex-grow: 1; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .comments-list::-webkit-scrollbar { width: 6px; }
+        .comments-list::-webkit-scrollbar-thumb { background-color: #cbd5e0; border-radius: 4px; }
+
+        .single-comment { display: flex; gap: 10px; font-size: 0.9rem; }
+        .single-comment .text-content { background: #f7f9fc; padding: 10px 14px; border-radius: 0 12px 12px 12px; }
+        .single-comment .meta { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+        .comment-input-area {
+            padding: 15px 20px; border-top: 1px solid #f1f5f9;
+            display: flex; gap: 10px; align-items: center;
+        }
+        .comment-input {
+            flex-grow: 1; padding: 10px 15px; border-radius: 20px;
+            border: 1px solid #e2e8f0; font-family: inherit; font-size: 0.9rem;
+        }
+        .comment-input:focus { border-color: var(--secondary); }
+        .btn-post {
+            color: var(--secondary); font-weight: 700; background: none; border: none;
+            cursor: pointer; opacity: 0.5; transition: 0.2s;
+        }
+        .btn-post:hover { opacity: 1; }
+        
+        .close-modal {
+            position: absolute; top: 15px; right: 20px; color: white;
+            font-size: 2rem; cursor: pointer; z-index: 10;
+            background: rgba(0,0,0,0.5); width: 40px; height: 40px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            line-height: 0;
+        }
+        .close-modal:hover { background: var(--primary); }
+
+        /* --- Utilities --- */
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .toast {
             position: fixed; bottom: 30px; right: 30px;
             background: var(--text-main); color: white;
@@ -314,7 +264,12 @@
         @media (max-width: 768px) {
             .dashboard-hero { flex-direction: column-reverse; gap: 20px; }
             .profile-cluster { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
-            .header-actions { display: none; /* Simplify mobile for now */ }
+            .header-actions { display: none; }
+            
+            /* Mobile Modal */
+            .modal-content { flex-direction: column; height: 90vh; }
+            .modal-image-col { flex: 1; background: black; }
+            .modal-interaction-col { flex: 1; min-height: 40%; }
         }
     </style>
 </head>
@@ -347,25 +302,13 @@
     <div class="container">
         
         <div class="dashboard-hero">
-            
             <div class="desc-board">
                 <h1>Welcome back, {{user}}! 👋</h1>
-                <p>
-                    {{userdata[0][2]}}
-                </p>
+                <p>{{userdata[0][2]}}</p>
                 <div class="stats-row">
-                    <div class="stat-item">
-                        <h3>{{ data|length }}</h3>
-                        <span>Shots</span>
-                    </div>
-                    <div class="stat-item">
-                        <h3>2.4k</h3>
-                        <span>Views</span>
-                    </div>
-                    <div class="stat-item">
-                        <h3>14</h3>
-                        <span>Likes</span>
-                    </div>
+                    <div class="stat-item"><h3>{{ data|length }}</h3><span>Shots</span></div>
+                    <div class="stat-item"><h3>2.4k</h3><span>Views</span></div>
+                    <div class="stat-item"><h3>14</h3><span>Likes</span></div>
                 </div>
             </div>
 
@@ -374,13 +317,11 @@
                     <img src="{{url_for('static', filename=userdata[0][3])}}" alt="Profile" class="large-dp">
                     <div class="status-dot" title="Online"></div>
                 </div>
-                
                 <a href="/settings" class="settings-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Settings
                 </a>
             </div>
-
         </div>
 
         <div class="section-header">
@@ -390,7 +331,7 @@
         
         <div class="gallery-grid" id="galleryGrid">
             {% for image in data %}
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openModal('{{url_for('static',filename=image[2])}}', '{{user}}', '{{url_for('static', filename=userdata[0][3])}}','{{image[0]}}','{{uid}}')">
                     <img src="{{url_for('static',filename=image[2])}}" loading="lazy" alt="User Upload">
                     <div class="item-overlay">
                         <span>Uploaded by {{user}}</span>
@@ -407,17 +348,56 @@
 
     </div>
 
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModal()">&times;</div>
+            
+            <div class="modal-image-col">
+                <img id="modalImgTag" src="" alt="Full View">
+            </div>
+
+            <div class="modal-interaction-col">
+                <div class="modal-header">
+                    <img id="modalOwnerAvatar" src="" class="comment-user-avatar" alt="">
+                    <span class="comment-user-name" id="modalOwnerName">User</span>
+                </div>
+
+                <div class="comments-list" id="commentsList">
+                    <!-- {% for comment in commentdata %}
+                        <div class="single-comment">
+                        <img src="{{url_for('static',filename=comment[2])}}" class="comment-user-avatar" style="width:32px; height:32px;">
+                        <div>
+                            <div class="text-content">
+                                <span style="font-weight:700;">{{comment[0]}}:</span> {{comment[1]}}
+                            </div>
+                            <div class="meta">2h ago</div>
+                        </div>
+                    </div>
+                    {% endfor %} -->
+                </div>
+
+                <div class="comment-input-area">
+                    <form method="post" action="/savecomment">
+                        <input type="text" id="newCommentInput" class="comment-input" placeholder="Add a comment..." onkeypress="handleEnter(event)" name="comment">
+                        <input type="text" id="image_id" name="image_id" value="" hidden> 
+                        <input type="text" id="user_id" name="user_id" value="" hidden>
+                        <button type="submit" class="btn-post">Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast">
         <span>✅</span> Upload Successful!
     </div>
 
     <script>
-        // --- JS Logic ---
+        // --- EXISTING JS ---
         const fileInput = document.getElementById('imageUpload');
         const fileLabel = document.getElementById('fileLabel');
         const uploadForm = document.getElementById('uploadForm');
 
-        // File Select Feedback
         fileInput.addEventListener('change', function() {
             if (this.files && this.files[0]) {
                 let name = this.files[0].name;
@@ -427,7 +407,6 @@
             }
         });
 
-        // Form Submit
         uploadForm.addEventListener('submit', function(e) {
             if (fileInput.files.length === 0) {
                 e.preventDefault();
@@ -442,6 +421,100 @@
         function confirmLogout() {
             return confirm("Are you sure you want to log out?");
         }
+
+        // --- NEW MODAL JS LOGIC ---
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImgTag');
+        const commentsList = document.getElementById('commentsList');
+        const ownerName = document.getElementById('modalOwnerName');
+        const ownerAvatar = document.getElementById('modalOwnerAvatar');
+
+        // Store the current user avatar for when they comment
+        // Note: In a real app, you'd pass this cleanly from backend
+        let currentUserAvatar = "{{url_for('static', filename=userdata[0][3])}}"; 
+
+        function openModal(imgSrc, user, userAvatar,image_id,uid) {
+            modalImg.src = imgSrc;
+            ownerName.innerText = user;
+            ownerAvatar.src = userAvatar;
+            let id = document.getElementById('image_id')
+            let user_id=document.getElementById('user_id')
+            user_id.value=uid
+            id.value=image_id
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            // commentshow(image_id)
+            setInterval(1000,commentshow(image_id))
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal if clicking outside content
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') postComment();
+        }
+
+        async function commentshow(image_id) {
+        const cl = document.getElementById('commentsList');
+        cl.innerHTML = ""; // Clear existing comments
+        // 1. Fetch the data
+        async function fetchdata() {
+        let response = await fetch(`/getcomment?id=${image_id}`);
+        return await response.json();
+        }
+        // 2. AWAIT the result so it becomes an Array, not a Promise
+        let image_comment = await fetchdata();
+        // 3. Loop and update the HTML
+        image_comment.forEach((item, index) => {
+        const [name, message, pic, status] = item;
+        // Append a new comment for each item in the array
+        cl.innerHTML += `
+        <div class="single-comment" style="margin-bottom: 10px;">
+            <img src="static/${pic}" class="comment-user-avatar" style="width:32px; height:32px; border-radius:50%;">
+            <div>
+                <div class="text-content">
+                    <strong style="font-weight:700;">${name}</strong>: ${message}
+                </div>
+                <!--- <div class="meta">Just now</div> --->
+            </div>
+        </div>
+        `;
+        });
+        }
+
+        // function postComment() {
+        //     const input = document.getElementById('newCommentInput');
+        //     const text = input.value.trim();
+            
+        //     if (text === "") return;
+
+        //     // Create new comment HTML structure
+        //     const newComment = document.createElement('div');
+        //     newComment.className = 'single-comment';
+        //     newComment.innerHTML = `
+        //         <img src="${currentUserAvatar}" class="comment-user-avatar" style="width:32px; height:32px;">
+        //         <div>
+        //             <div class="text-content">
+        //                 <span style="font-weight:700;">You:</span> ${text}
+        //             </div>
+        //             <div class="meta">Just now</div>
+        //         </div>
+        //     `;
+
+        //     // Append and Scroll
+        //     commentsList.appendChild(newComment);
+        //     commentsList.scrollTop = commentsList.scrollHeight;
+        //     input.value = ""; // Clear input
+        // }
     </script>
 </body>
 </html>
