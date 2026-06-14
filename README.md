@@ -67,5 +67,13 @@ select u.uname,c.cmts,ud.dp,c.image_id from users as u inner join comment as c o
 - hardcoded username is galay need to replace it with user id // solved
 - make image comments dynemic // solved
 - All comments are visible on all images // solved
+----------------
 - Comment Refresh issue
 - Search Dashboard Page change after submitting comment
+
+==========14-06-2026============
+- like is hardcoded
+- unique views
+- email login - to make it unique
+- Ai Integration (comment polish / chat polish)
+- email on comment
